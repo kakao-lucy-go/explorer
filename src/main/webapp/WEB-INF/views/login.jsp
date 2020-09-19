@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>주민번호 입력받아 전송</title>
+<title>로그인</title>
 </head>
 <body>
     <form action="/user/login" method="post">

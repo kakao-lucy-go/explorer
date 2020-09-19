@@ -6,7 +6,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=EUC-KR">
-<title>장소 검색</title>
+<title>접속 거부</title>
 </head>
 <body>
 Deny

@@ -30,10 +30,13 @@ public class ApiController {
     //TODO 결과값 정의할까?
     @Secured("ROLE_ADMIN")
     @GetMapping("/kakao/places")
-    public ResponseEntity<List<Place>> searchPlacesByKeywordUsingKaKao(@RequestParam(value = "keyword") String keyword,@RequestParam(value = "page", required = false, defaultValue = "1") Integer page,@RequestParam(value = "size", required = false, defaultValue = "15") Integer size) {
+    public ResponseEntity<List<Place>> searchPlacesByKeywordUsingKaKao(@RequestParam(value = "keyword") String keyword,
+                                                                       @RequestParam(value = "repeat", required = false, defaultValue = "false") Boolean repeat,
+                                                                       @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
+                                                                       @RequestParam(value = "size", required = false, defaultValue = "15") Integer size) {
         logger.info("call searchPlacesByKeywordUsingKaKao()");
         try {
-            return new ResponseEntity<>(apiHandler.searchPlacesByKeywordUsingKaKao(keyword, page, size), HttpStatus.ACCEPTED);
+            return new ResponseEntity<>(apiHandler.searchPlacesByKeywordUsingKaKao(keyword, page, size, repeat), HttpStatus.ACCEPTED);
         }catch(IOException e) {
             return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
         }

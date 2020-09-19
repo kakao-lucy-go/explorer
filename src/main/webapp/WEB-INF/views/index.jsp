@@ -13,15 +13,65 @@
 <script type="text/javascript">
 <!--const axios = require('axios');-->
 
+(function() {
 
-function fetchData(e){
-e.preventDefault();
-    console.log("in")
-    axios.get('/api/kakao/places', {
+   console.log("Initial")
+   fetchRank();
+
+})();
+
+async function fetchRank(){
+    //e.preventDefault();
+    let rankParams = {num:10}
+    const rankConfig = {
+            method: 'GET',
+            url: `/api/rank`,
+            rankParams
+        }
+
+    try {
+        let ranking = await axios(rankConfig);
+        console.log(ranking)
+    } catch(err) {
+        console.log(err)
+    }
+}
+
+
+async function fetchData(e, repeat){
+    e.preventDefault();
+
+    let keyword = document.querySelector('input[name=keyword]').value;
+    let page = document.querySelector('input[name=page]').value;
+    let size = document.querySelector('input[name=size]').value;
+    console.log(keyword)
+
+    let params = {
+        keyword,
+        page,
+        size,
+        repeat
+    }
+
+    const config = {
+        method: 'GET',
+        url: `/api/kakao/places`,
+        params
+    }
+    try {
+        let res = await axios(config);
+        console.log(res)
+    } catch(err) {
+        console.log(err)
+    }
+
+    fetchRank();
+
+ /*   axios.get('/api/kakao/places', {
         params: {
-          keyword: "수지구청",
-          page: 1,
-          size : 15
+          keyword: keyword,
+          page: page,
+          size : size
         }
       })
       .then(function (response) {
@@ -32,23 +82,24 @@ e.preventDefault();
       })
       .finally(function () {
         // always executed
-      });
+      }); */
 }
 
 </script>
 
 </head>
 <body>
-<!-- action="/api/kakao/places"  method="get"-->
     <form>
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-<!--
+
         <input type="text" name="keyword" placeholder="검색하고자 하는 값을 입력하세요.">
         <input type="text" name="page" placeholder="page">
-        <input type="text" name="size" placeholder="size"> -->
-        <button type="submit" onclick="fetchData(event)" >검색</button>
+        <input type="text" name="size" placeholder="size">
+        <button type="submit" onclick="fetchData(event, false)" >검색</button>
+        <<button type="submit" onclick="fetchData(event, true)" >다음 페이지</button>
     </form>
-<button onclick="fetchData()">test</button>
+
+
 
 </body>
 </html>
