@@ -85,10 +85,10 @@ public class KaKaoSearchService<T> implements SearchService {
         System.out.println(resultSize);
         for (int i = 0; i < resultSize; i++) {
             KaKaoPlace place = list.get(i);
-            place.setLink(new StringBuilder("https://map.kakao.com/link/map/").append(place.getX()).append(",").append(place.getY()).toString());
+            place.setLink(new StringBuilder("https://map.kakao.com/link/map/").append(place.getId()).toString());
         }
 
-        return (T) list;
+        return (T) kaKaoDocuments;
     }
 
     public boolean isValidKaKaoDocuments(KaKaoDocuments kaKaoDocuments) {

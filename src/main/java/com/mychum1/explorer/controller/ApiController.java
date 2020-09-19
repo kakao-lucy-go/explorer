@@ -1,7 +1,7 @@
 package com.mychum1.explorer.controller;
 
-import com.mychum1.explorer.domain.Place;
-import com.mychum1.explorer.domain.Poi;
+import com.mychum1.explorer.domain.KaKaoDocuments;
+import com.mychum1.explorer.domain.Response;
 import com.mychum1.explorer.handler.ApiHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
-import java.util.List;
 
 @Controller
 @RequestMapping("/api")
@@ -27,25 +26,31 @@ public class ApiController {
     private ApiHandler apiHandler;
 
     //TODO 예외처리 추가
-    //TODO 결과값 정의할까?
     @Secured("ROLE_ADMIN")
     @GetMapping("/kakao/places")
-    public ResponseEntity<List<Place>> searchPlacesByKeywordUsingKaKao(@RequestParam(value = "keyword") String keyword,
+    public ResponseEntity<Response> searchPlacesByKeywordUsingKaKao(@RequestParam(value = "keyword") String keyword,
                                                                        @RequestParam(value = "repeat", required = false, defaultValue = "false") Boolean repeat,
                                                                        @RequestParam(value = "page", required = false, defaultValue = "1") Integer page,
                                                                        @RequestParam(value = "size", required = false, defaultValue = "15") Integer size) {
         logger.info("call searchPlacesByKeywordUsingKaKao()");
         try {
-            return new ResponseEntity<>(apiHandler.searchPlacesByKeywordUsingKaKao(keyword, page, size, repeat), HttpStatus.ACCEPTED);
+            KaKaoDocuments kaKaoDocuments = apiHandler.searchPlacesByKeywordUsingKaKao(keyword, page, size, repeat);
+            if(kaKaoDocuments == null) {
+                return new ResponseEntity<>(new Response<KaKaoDocuments>(HttpStatus.NO_CONTENT.value(), "no data", null), HttpStatus.NO_CONTENT);
+            }else {
+                return new ResponseEntity<>(new Response<>(HttpStatus.OK.value(), "success", kaKaoDocuments), HttpStatus.OK);
+            }
+
         }catch(IOException e) {
-            return new ResponseEntity<>(HttpStatus.INTERNAL_SERVER_ERROR);
+            return new ResponseEntity<>(new Response<KaKaoDocuments>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "internal server error", null), HttpStatus.INTERNAL_SERVER_ERROR);
         }
     }
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/rank")
-    public ResponseEntity<List<Poi>> topRanking(@RequestParam(value = "num", defaultValue = "10") int num) {
-        return new ResponseEntity<>(apiHandler.topRanking(num), HttpStatus.ACCEPTED);
+    public ResponseEntity<Response> topRanking(@RequestParam(value = "num", defaultValue = "10") int num) {
+        logger.info("call topRanking()");
+        return new ResponseEntity<>(new Response<>(HttpStatus.OK.value(), "success", apiHandler.topRanking(num)), HttpStatus.OK);
     }
 
 

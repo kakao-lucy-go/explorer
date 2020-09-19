@@ -1,5 +1,6 @@
 package com.mychum1.explorer.handler;
 
+import com.mychum1.explorer.domain.KaKaoDocuments;
 import com.mychum1.explorer.domain.Place;
 import com.mychum1.explorer.domain.Poi;
 import com.mychum1.explorer.service.HotKeywordService;
@@ -28,8 +29,8 @@ public class ApiHandler {
      * @return
      * @throws IOException
      */
-    public List<Place> searchPlacesByKeywordUsingKaKao(String keyword, Integer page, Integer size, Boolean repeat) throws IOException {
-        List<Place> list = (List<Place>) searchService.searchPlacesByKeyword(keyword, page, size);
+    public KaKaoDocuments searchPlacesByKeywordUsingKaKao(String keyword, Integer page, Integer size, Boolean repeat) throws IOException {
+        KaKaoDocuments list = (KaKaoDocuments) searchService.searchPlacesByKeyword(keyword, page, size);
         if(!repeat) {
             hotKeywordService.updateHotKeyword(keyword);
         }
