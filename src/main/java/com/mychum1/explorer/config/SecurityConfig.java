@@ -27,7 +27,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected  void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 //.antMatchers("/","/api/*").hasRole("ADMIN")
-                .antMatchers("/login").permitAll()  //login 화면은 누구든 접근 가능
+                .antMatchers("/login","/asset").permitAll()  //login 화면은 누구든 접근 가능
 
                 .and().formLogin().defaultSuccessUrl("/")
                 .loginProcessingUrl("/loginProcess")
