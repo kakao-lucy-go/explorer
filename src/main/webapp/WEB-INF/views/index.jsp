@@ -10,15 +10,41 @@
 
 <title>장소 검색</title>
 <link href="style.css" rel="stylesheet" type="text/css" />
+<link href="rankStyle.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
 
 
 </head>
 <body>
 
+  <div id="Rank">
+    <div class="header">
+      <div class="title">인기 키워드 랭킹</div>
+     <div>
+        <form class="rank-box" action="">
+        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+          <div class="rank-input-box">
+
+            <!-- <span></span> -->
+          </div>
+          <button class="rank-btn" type="submit" onclick="fetchData(event, false)">검색</button>
+        </form>
+      </div>
+    </div>
+    <div class="rank-list">
+      <div class="rank-item">
+        <div class="rank-item-head">
+          <span></span>
+          <span></span>
+        </div>
+        <div class="rank-item-body"></div>
+      </div>
+    </div>
+  </div>
+
   <div id="Search">
     <div class="header">
-      <div class="title">title</div>
+      <div class="title">장소 검색</div>
       <div>
         <form class="search-box" action="">
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
@@ -35,10 +61,10 @@
     <div class="search-list">
       <div class="search-item">
         <div class="item-head">
-          <span>카>테>고>리</span>
-          <span>010-2345-6789</span>
+          <span></span>
+          <span></span>
         </div>
-        <div class="item-body">장소</div>
+        <div class="item-body"></div>
       </div>
     </div>
   </div>
@@ -59,12 +85,13 @@
 (function() {
 
    console.log("Initial")
-   //fetchRank();
+   fetchRank();
 
 })();
 
 async function fetchRank(){
     //e.preventDefault();
+    removeRank();
     let rankParams = {num:10}
     const rankConfig = {
             method: 'GET',
@@ -74,6 +101,39 @@ async function fetchRank(){
 
     try {
         let ranking = await axios(rankConfig);
+
+       let rankList = ranking.data.data;
+        console.log(rankList)
+        let number = 1
+        let elRankList = rankList.map((item) => {
+            let rankItem = createEl('div', 'rank-item')
+
+            let rankItemHead = createEl('div', 'rank-item-head')
+
+            let rankKeyword = createEl('span', '')
+            rankKeyword.textContent = number;
+            number+=1;
+            rankItemHead.appendChild(rankKeyword)
+
+            let count = createEl('span', '')
+            count.textContent = item.count;
+            rankItemHead.appendChild(count)
+
+            rankItem.appendChild(rankItemHead)
+
+            let rankItemBody = createEl('div', 'rank-item-body')
+            rankItemBody.textContent = item.keyword;
+            rankItem.appendChild(rankItemBody)
+
+            return rankItem;
+        })
+
+        console.log(elRankList)
+
+        for(let el of elRankList) {
+          document.querySelector('.rank-list').appendChild(el)
+        }
+
         console.log(ranking)
     } catch(err) {
         console.log(err)
@@ -84,6 +144,13 @@ function createEl (type, className) {
   let el = document.createElement(type);
   el.className = className;
   return el;
+}
+
+function removeRank() {
+    let parent = document.querySelector(".rank-list");
+    while ( parent.hasChildNodes() ) {
+    parent.removeChild( parent.firstChild );
+    }
 }
 
 function removeData() {
