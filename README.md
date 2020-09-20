@@ -52,19 +52,16 @@ $ cd explorer
 $ java -jar explorer-0.0.1-SNAPSHOT.jar
 ```
 
-# 로그인 정보
-1. 서비스 이용 가능 사용자
-
-ID|PW
-------|-------
-client|password
-
-2. 서비스 이용 불가능 사용자
-
-ID|PW
------|------
-client2|password
-
+# 접속 정보
+* url : localhost:8080
+* 유저정보
+    * 서비스 이용 가능 사용자
+        * ID : client
+        * PW : password
+    * 서비스 이용 불가능 사용자
+        * ID : client2
+        * PW : password
+ 
 # 실행 화면
 ## 로그인
 ![로그인](https://github.com/mychum1/explorer/blob/master/images/login.png)
