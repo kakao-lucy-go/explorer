@@ -13,7 +13,7 @@ public interface PoiRepository extends JpaRepository<Poi, String> {
 
 
     @Modifying
-    @Query(value="update poi p set count = (select count from poi p2 where keyword=?1)+1", nativeQuery=true)
+    @Query(value="update poi p set count = count+1 where p.keyword=?1", nativeQuery=true)
     Integer updateHotKeyword(String keyword);
 
     @Query(value="select top ?1 * from poi order by count desc", nativeQuery = true)

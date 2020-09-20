@@ -2,6 +2,7 @@ package com.mychum1.explorer.controller;
 
 import com.mychum1.explorer.domain.KaKaoDocuments;
 import com.mychum1.explorer.domain.Response;
+import com.mychum1.explorer.exception.SearchException;
 import com.mychum1.explorer.handler.ApiHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -41,8 +42,9 @@ public class ApiController {
                 return new ResponseEntity<>(new Response<>(HttpStatus.OK.value(), "success", kaKaoDocuments), HttpStatus.OK);
             }
 
-        }catch(IOException e) {
-            return new ResponseEntity<>(new Response<KaKaoDocuments>(HttpStatus.INTERNAL_SERVER_ERROR.value(), "internal server error", null), HttpStatus.INTERNAL_SERVER_ERROR);
+        }catch(SearchException e) {
+            logger.error(e.getMessage());
+            return new ResponseEntity<>(new Response<KaKaoDocuments>(e.getCode(), e.getMessage(), null), HttpStatus.BAD_REQUEST);
         }
     }
 

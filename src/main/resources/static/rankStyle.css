@@ -12,7 +12,7 @@ body {
   background-color: #f2eee5; }
   body #Rank {
     overflow: hidden;
-    width: 50%;
+    width: 25%;
     max-width: 512px;
     border-radius: 4px; }
     body #Rank .header .title {

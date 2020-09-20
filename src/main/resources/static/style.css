@@ -42,6 +42,13 @@ body {
         padding: 0 1rem;
         font-size: 1.125rem;
         color: white; }
+     body #Search .page-list{
+       background-color: white;
+       min-height: 20px;
+       max-height: 50px;
+       overflow-y: auto; }
+           body #Search .page-list .page-item{
+             background-color: #f8f9fa;}
     body #Search .search-list {
       background-color: white;
       min-height: 320px;
@@ -59,5 +66,55 @@ body {
         body #Search .search-list .search-item .item-body {
           display: flex;
           justify-content: center;
-          padding: 1rem 1.5rem 1.5rem;
-          font-size: 2rem; }
+          padding: 1rem 1.25rem 1.25rem;
+          font-size: 1.5rem;
+          font-weight: bold; }
+  body #DataDetail {
+    display: none; }
+    body #DataDetail .background-dim {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: fixed;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      background-color: rgba(0, 0, 0, 0.5); }
+      body #DataDetail .background-dim .window {
+        overflow: hidden;
+        min-width: 320px;
+        border-radius: 4px;
+        background-color: white; }
+        body #DataDetail .background-dim .window .modal-header {
+          padding: 20px;
+          font-size: 1.25rem;
+          font-weight: bold;
+          background-color: #6ec2da;
+          color: white; }
+        body #DataDetail .background-dim .window .modal-body .content-container {
+          display: flex;
+          flex-wrap: wrap;
+          padding: 16px 10px; }
+          body #DataDetail .background-dim .window .modal-body .content-container .content-item-box {
+            flex-basis: 50%; }
+            body #DataDetail .background-dim .window .modal-body .content-container .content-item-box .content-item {
+              padding: 10px; }
+              body #DataDetail .background-dim .window .modal-body .content-container .content-item-box .content-item .content-title {
+                font-size: .5rem;
+                color: #6ec2da; }
+              body #DataDetail .background-dim .window .modal-body .content-container .content-item-box .content-item .content-content {
+                overflow: hidden;
+                display: flex;
+                align-items: center;
+                margin-top: 4px;
+                padding: 6px 0; }
+        body #DataDetail .background-dim .window .modal-footer .close {
+          display: inline-block;
+          width: 100%;
+          padding: 15px;
+          font-size: 1.125rem;
+          background-color: skyblue;
+          color: white; }
+          body #DataDetail .background-dim .window .modal-footer .close:active {
+            background-color: #6ec2da; }

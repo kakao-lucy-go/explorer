@@ -30,6 +30,7 @@ public class HotKeywordService {
 //            temp.setCount(temp.getCount() + 1);
 //            repository.save(temp);
 
+            System.out.println("keyword : " + keyword);
             repository.findAll().forEach(i -> System.out.println(i.getKeyword() +" " + i.getCount()));
 
         } else {
