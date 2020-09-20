@@ -20,24 +20,14 @@
   <div id="Rank">
     <div class="header">
       <div class="title">인기 키워드 랭킹</div>
-     <div>
-        <form class="rank-box" action="">
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-          <div class="rank-input-box">
-
-            <!-- <span></span> -->
-          </div>
-          <button class="rank-btn" type="submit" onclick="fetchData(event, false)">검색</button>
-        </form>
-      </div>
-    </div>
+        </div>
     <div class="rank-list">
       <div class="rank-item">
-        <div class="rank-item-head">
-          <span></span>
-          <span></span>
+        <div class="rank-item-body">
+            <span class="rank"></span>
+            <span class="title"></span>
+            <span class="count"></span>
         </div>
-        <div class="rank-item-body"></div>
       </div>
     </div>
   </div>
@@ -51,12 +41,11 @@
         <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
           <div class="search-input-box">
             <input class="search-keyword" type="text" name="keyword" placeholder="검색어를 입력하세요">
-               <input type="text" name="page" placeholder="page">
-               <input type="text" name="size" placeholder="size">
+               <!--<input type="text" name="page" placeholder="page">
+               <input type="text" name="size" placeholder="size"> -->
             <!-- <span></span> -->
           </div>
           <button class="search-btn" type="submit" onclick="fetchData(event, false)">검색</button>
-           <button class="search-btn" type="submit" onclick="paging(event, true)" >다음 페이지</button>
         </form>
       </div>
     </div>
@@ -70,7 +59,7 @@
       </div>
     </div>
     <div class="page-list">
-        <a class="page-item"></a>
+        <div></div>
     </div>
   </div>
 
@@ -121,13 +110,6 @@
             </div>
             <div class="content-item-box">
             <div class="content-item">
-            <div class="content-title">바로가기</div>
-            <div class="content-content place_link"></div>
-            <div id="map" style="width:300px;height:200px;"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
             <div class="content-title">연락처</div>
             <div class="content-content place_phone"></div>
             </div>
@@ -162,25 +144,24 @@
             <div class="content-content place_y"></div>
             </div>
             </div>
+            <div class="content-item-box">
+            <div class="content-item">
+            <div class="content-title">바로가기</div>
+            <div class="content-content place_link"> </div>
+            <div id="map" style="position:relative;width:300px;height:200px;"></div>
+            </div>
+            </div>
 
             </div>
+
             </div>
+
             <div class="modal-footer">
             <button class="close" onclick="hideDetailModal()">확 인</button>
             </div>
         </div>
     </div>
 </div>
-
- <!--   <form>
-        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-
-        <input type="text" name="keyword" placeholder="검색하고자 하는 값을 입력하세요.">
-        <input type="text" name="page" placeholder="page">
-        <input type="text" name="size" placeholder="size">
-        <button type="submit" onclick="fetchData(event, false)" >검색</button>
-        <<button type="submit" onclick="paging(event, true)" >다음 페이지</button>
-    </form> -->
 
 <script type="text/javascript">
 
@@ -192,21 +173,20 @@ let showDetailModal = (obj) => {
         let target = document.querySelector(`.place_`+key);
 
         if(target) {
-            if(key == "link" ) {
-                var container = document.getElementById('map');
-                		var options = {
-                			center: new kakao.maps.LatLng(obj['y'], obj['x']),
-                			level: 3
-                		};
-
-                		var map = new kakao.maps.Map(container, options);
-            }
             target.textContent = value;
         }
     }
-
     let modal = document.querySelector('#DataDetail');
     modal.style.display = 'block';
+
+        let container = document.getElementById('map');
+        let options = {
+            center: new kakao.maps.LatLng(obj['y'], obj['x']),
+            level: 3
+        };
+
+        let map = new kakao.maps.Map(container, options);
+
 }
 
 let hideDetailModal = ()=> {
@@ -240,22 +220,21 @@ async function fetchRank(){
         let number = 1
         let elRankList = rankList.map((item) => {
             let rankItem = createEl('div', 'rank-item')
-
-            let rankItemHead = createEl('div', 'rank-item-head')
-
-            let rankKeyword = createEl('span', '')
-            rankKeyword.textContent = number;
-            number+=1;
-            rankItemHead.appendChild(rankKeyword)
-
-            let count = createEl('span', '')
-            count.textContent = item.count;
-            rankItemHead.appendChild(count)
-
-            rankItem.appendChild(rankItemHead)
-
             let rankItemBody = createEl('div', 'rank-item-body')
-            rankItemBody.textContent = item.keyword;
+
+            let rankKeyword = createEl('span', 'rank')
+            rankKeyword.textContent = number + '위';
+            number+=1;
+            rankItemBody.appendChild(rankKeyword)
+
+            let title = createEl('span', 'title')
+            title.textContent = item.keyword;
+            rankItemBody.appendChild(title)
+
+            let count = createEl('span', 'count')
+            count.textContent = item.count+'회';
+            rankItemBody.appendChild(count)
+
             rankItem.appendChild(rankItemBody)
 
             return rankItem;
@@ -386,11 +365,11 @@ console.log("totalCount : " + totalCount + " , totalPage : " + totalPage)
 
     for(let i=1;i<=totalPage; i++) {
 
-            let pageItem = createEl('div', 'page-list');
+            //let pageItem = createEl('div', 'page-list');
 
-            let pageButton = createEl('a','')
+            let pageDiv = createEl('div',"page-item");
+            let pageButton = createEl('a','"page-item-link')
 
-            pageButton.id="page-item"
             pageButton.onclick=function() {
                 paging(event, true, i)
             //"paging('"+ event +"'\,'true'\,'"+i+"');"
@@ -399,8 +378,9 @@ console.log("totalCount : " + totalCount + " , totalPage : " + totalPage)
 
             pageButton.textContent = i;
 
-            pageItem.appendChild(pageButton);
-            document.querySelector('.page-list').append(pageItem)
+            pageDiv.appendChild(pageButton)
+            //pageItem.appendChild(pageButton);
+            document.querySelector('.page-list').append(pageDiv)
 
 
     }

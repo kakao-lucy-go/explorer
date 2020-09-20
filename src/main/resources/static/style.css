@@ -46,9 +46,15 @@ body {
        background-color: white;
        min-height: 20px;
        max-height: 50px;
-       overflow-y: auto; }
+       overflow-y: auto;
+       display: flex;
+       justify-content: center;
+       padding: 4px;
+       border-top: 1px solid #6ec2da;
+       }
            body #Search .page-list .page-item{
-             background-color: #f8f9fa;}
+             background-color: #f8f9fa;
+             padding: 4px 8px;}
     body #Search .search-list {
       background-color: white;
       min-height: 320px;

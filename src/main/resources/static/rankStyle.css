@@ -19,8 +19,8 @@ body {
       display: flex;
       justify-content: center;
       align-items: center;
-      padding: 20px;
-      font-size: 24px;
+      padding: 8px;
+      font-size: 16px;
       background-color: #6ec2da;
       color: white;
       text-align: center; }
@@ -58,6 +58,17 @@ body {
           justify-content: space-between; }
         body #Rank .rank-list .rank-item .rank-item-body {
           display: flex;
-          justify-content: center;
-          padding: 1rem 1.5rem 1.5rem;
-          font-size: 2rem; }
+          justify-content: space-between;
+          padding: .5rem;
+          font-size: 1.125rem; }
+
+#Rank .rank{
+    flex-basis: 32px;
+}
+#Rank .count {
+    flex-basis: 32px;
+}
+#Rank .title {
+    flex-grow: 1;
+    text-align: center;
+}
