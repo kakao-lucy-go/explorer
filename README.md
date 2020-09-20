@@ -82,10 +82,11 @@ $ java -jar explorer-0.0.1-SNAPSHOT.jar
 
 1. Spring boot data JPA : 데이터베이스 persistence layer 로 사용 
 2. Spring boot security : 로그인 기능을 위해 사용
-3. h2database : 데이터베이스
-4. tomcat embed jasper : 프론트 구현을 위한 JSP 
-5. axios : API 통신 
-6. kakao map : 다음 맵 구현 
+3. Spring boot web : WEB 환경 구성
+4. h2 : 데이터베이스
+5. tomcat embed jasper : 프론트 구현을 위한 JSP 사용
+6. axios : 프론트에서 API 통신 
+7. kakao map : 다음 맵 구현 
 
 # API 명세서
 ## GET /api/kakao/places
