@@ -11,6 +11,8 @@ public class Poi {
     private String keyword;
     private Integer count;
 
+    public Poi() {}
+    public Poi(String keyword, Integer count) {this.keyword=keyword; this.count=count;}
     public String getKeyword() {
         return keyword;
     }

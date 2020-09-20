@@ -34,8 +34,6 @@ public class KaKaoSearchService<T> implements SearchService {
     @Value("${kakao.search.url}")
     private String kakaoSearchUrl;
 
-    private String kakaoSearchUrlWithQuery;
-
     @Value("${kakao.key}")
     private String kakaoKey;
 
@@ -47,7 +45,7 @@ public class KaKaoSearchService<T> implements SearchService {
     public void setHttpClient() {
         appkakaoKey = new StringBuilder("KakaoAK ").append(kakaoKey).toString();
         //
-        kakaoSearchUrlWithQuery = new StringBuilder(kakaoSearchUrl).append("?page={page}&size={size}&query={query}").toString();
+        //kakaoSearchUrlWithQuery = new StringBuilder(kakaoSearchUrl).append("?page={page}&size={size}&query={query}").toString();
         headers = new HttpHeaders();
         headers.add("Authorization",appkakaoKey);
     }

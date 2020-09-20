@@ -19,28 +19,18 @@ public class HotKeywordService {
     @Transactional
     public Integer updateHotKeyword(String keyword) {
         //메모리 디비에 키워드 저장
-        /**
-         * Redis에 값을 넣고 출력하는 예제
-         */
         Integer result = 0;
         if (repository.existsById(keyword)) {
 
             result = repository.updateHotKeyword(keyword);
-//            Poi temp = repository.findById(keyword).get();
-//            temp.setCount(temp.getCount() + 1);
-//            repository.save(temp);
-
-            System.out.println("keyword : " + keyword);
-            repository.findAll().forEach(i -> System.out.println(i.getKeyword() +" " + i.getCount()));
-
         } else {
             Poi poiEntity = new Poi();
             poiEntity.setKeyword(keyword);
             poiEntity.setCount(1);
             repository.save(poiEntity);
+            result +=1;
         }
 
-        //System.out.println(repository.findAll().get(0).getCount());
         return result;
     }
 
