@@ -1,5 +1,6 @@
 package com.mychum1.explorer.service.kakao;
 
+import com.mychum1.explorer.common.CommonCode;
 import com.mychum1.explorer.domain.KaKaoDocuments;
 import com.mychum1.explorer.domain.KaKaoPlace;
 import com.mychum1.explorer.exception.SearchException;
@@ -37,15 +38,19 @@ public class KaKaoSearchService<T> implements SearchService {
     @Value("${kakao.key}")
     private String kakaoKey;
 
+    @Value("${daum.map.url}")
+    private String daumMapUrl;
+
     private String appkakaoKey;
 
     private HttpHeaders headers;
 
     @PostConstruct
-    public void setHttpClient() {
+    public void initialize() {
+        //자주 사용하는 키 값을 미리 정의한다.
         appkakaoKey = new StringBuilder("KakaoAK ").append(kakaoKey).toString();
-        //
-        //kakaoSearchUrlWithQuery = new StringBuilder(kakaoSearchUrl).append("?page={page}&size={size}&query={query}").toString();
+
+        //자주 사용하는 헤더 값을 미리 정의한다.
         headers = new HttpHeaders();
         headers.add("Authorization",appkakaoKey);
     }
@@ -53,13 +58,14 @@ public class KaKaoSearchService<T> implements SearchService {
 
     /**
      * 키워드 기반으로 장소를 검색한다.
-     * @param keyword
+     * @param keyword : 장소 명
      * @return
      * @throws IOException
      */
     @Override
     public T searchPlacesByKeyword(String keyword, Integer page, Integer size) throws SearchException {
 
+        logger.info("call searchPlacesByKeyword(). keyword:{}, page:{}, size:{}", keyword, page, size);
         MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
         params.add("page", String.valueOf(page));
         params.add("size", String.valueOf(size));
@@ -70,15 +76,14 @@ public class KaKaoSearchService<T> implements SearchService {
 
         try {
             if(keyword.equals("")) {
-                throw new SearchException(HttpStatus.BAD_REQUEST.value(), "keyword parameter is required");
+                throw new SearchException(HttpStatus.BAD_REQUEST.value(), CommonCode.ERROR_PARAMETER_WEIRD);
             }
             ResponseEntity<KaKaoDocuments> kaKaoDocumentsResponseEntity = restTemplate.exchange(builder.encode().build().toUri(), HttpMethod.GET, new HttpEntity<>(headers), KaKaoDocuments.class);
             KaKaoDocuments kaKaoDocuments = null;
             if (kaKaoDocumentsResponseEntity.getStatusCode().is2xxSuccessful()) {
                 kaKaoDocuments = kaKaoDocumentsResponseEntity.getBody();
-                logger.info(kaKaoDocuments.toString());
             } else {
-                throw new SearchException(kaKaoDocumentsResponseEntity.getStatusCode().value(), "internal server error");
+                throw new SearchException(kaKaoDocumentsResponseEntity.getStatusCode().value(), CommonCode.INTERNAL_SERVER_ERROR);
             }
 
             List<KaKaoPlace> list = new ArrayList<>();
@@ -86,13 +91,8 @@ public class KaKaoSearchService<T> implements SearchService {
                 list = kaKaoDocuments.getDocuments();
             }
 
-            //TODO 이부분 스트림형식으로 수정
-            int resultSize = list.size();
-            System.out.println(resultSize);
-            for (int i = 0; i < resultSize; i++) {
-                KaKaoPlace place = list.get(i);
-                place.setLink(new StringBuilder("https://map.kakao.com/link/map/").append(place.getId()).toString());
-            }
+            //바로가기 링크 생성
+            list.stream().forEach(i -> i.setLink(new StringBuilder(daumMapUrl).append(i.getId()).toString()));
 
             return (T) kaKaoDocuments;
 
@@ -101,6 +101,11 @@ public class KaKaoSearchService<T> implements SearchService {
         }
     }
 
+    /**
+     * KaKaoDocuments 유효성 확인
+     * @param kaKaoDocuments
+     * @return
+     */
     public boolean isValidKaKaoDocuments(KaKaoDocuments kaKaoDocuments) {
         return kaKaoDocuments != null && kaKaoDocuments.getDocuments() != null && kaKaoDocuments.getDocuments().size() > 0;
     }

@@ -26,8 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected  void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-                //.antMatchers("/","/api/*").hasRole("ADMIN")
-                .antMatchers("/login","/asset").permitAll()  //login 화면은 누구든 접근 가능
+                .antMatchers("/login","/asset").permitAll()
 
                 .and().formLogin().defaultSuccessUrl("/")
                 .loginProcessingUrl("/loginProcess")
@@ -41,7 +40,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        //auth.userDetailsService(memberService).passwordEncoder(passwordEncoder());
         auth.inMemoryAuthentication().withUser("client").password(passwordEncoder().encode("password")).roles("ADMIN");
         auth.inMemoryAuthentication().withUser("client2").password(passwordEncoder().encode("password")).roles("USER");
     }

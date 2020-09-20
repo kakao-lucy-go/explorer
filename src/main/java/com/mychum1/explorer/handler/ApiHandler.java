@@ -1,10 +1,9 @@
 package com.mychum1.explorer.handler;
 
+import com.mychum1.explorer.domain.HotPlace;
 import com.mychum1.explorer.domain.KaKaoDocuments;
-import com.mychum1.explorer.domain.Place;
-import com.mychum1.explorer.domain.Poi;
 import com.mychum1.explorer.exception.SearchException;
-import com.mychum1.explorer.service.HotKeywordService;
+import com.mychum1.explorer.service.HotPlaceService;
 import com.mychum1.explorer.service.kakao.KaKaoSearchService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -19,7 +18,7 @@ public class ApiHandler {
     private KaKaoSearchService searchService;
 
     @Autowired
-    private HotKeywordService hotKeywordService;
+    private HotPlaceService hotPlaceService;
 
     /**
      * 카카오 장소 검색 API 를 사용해서 keyword 를 검색한다.
@@ -33,7 +32,7 @@ public class ApiHandler {
     public KaKaoDocuments searchPlacesByKeywordUsingKaKao(String keyword, Integer page, Integer size, Boolean repeat) throws SearchException {
         KaKaoDocuments list = (KaKaoDocuments) searchService.searchPlacesByKeyword(keyword, page, size);
         if(!repeat) {
-            hotKeywordService.updateHotKeyword(keyword);
+            hotPlaceService.updateHotKeyword(keyword);
         }
         return list;
     }
@@ -43,8 +42,8 @@ public class ApiHandler {
      * @param num
      * @return
      */
-    public List<Poi> topRanking(int num) {
-        return hotKeywordService.topRanking(num);
+    public List<HotPlace> topRanking(int num) {
+        return hotPlaceService.topRanking(num);
     }
 
 }

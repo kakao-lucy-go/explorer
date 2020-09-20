@@ -9,7 +9,7 @@
 <title>접속 거부</title>
 </head>
 <body>
-Deny
+Access Denied
 </form>
 </body>
 </html>

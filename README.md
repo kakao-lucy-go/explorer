@@ -67,19 +67,19 @@ client2|password
 
 # 실행 화면
 ## 로그인
-![로그인]("https://github.com/mychum1/explorer/blob/master/images/login.png")
+![로그인](https://github.com/mychum1/explorer/blob/master/images/login.png){: width="20%" height="50%"}
 
 ## 인기검색어
-![인기 검색어]("https://github.com/mychum1/explorer/blob/master/images/hotplace.png") 
+![인기 검색어](https://github.com/mychum1/explorer/blob/master/images/hotplace.png){: width="20%" height="50%"}
 
 ## 장소 검색
-![장소 검색]("https://github.com/mychum1/explorer/blob/master/images/search-place.png")
+![장소 검색](https://github.com/mychum1/explorer/blob/master/images/search-place.png){: width="20%" height="50%"}
 
 ## 장소 페이지네이션
-![페이지네이션]("https://github.com/mychum1/explorer/blob/master/images/pagenation.png")
+![페이지네이션](https://github.com/mychum1/explorer/blob/master/images/pagenation.png){: width="20%" height="50%"}
 
 ## 장소 상세보기
-![상세 화면]("https://github.com/mychum1/explorer/blob/master/images/search-place.png)
+![상세 화면](https://github.com/mychum1/explorer/blob/master/images/detail.png){: width="20%" height="50%"}
 
 # 사용 라이브러리
 

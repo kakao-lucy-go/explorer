@@ -1,11 +1,11 @@
 package com.mychum1.explorer;
 
 import com.mychum1.explorer.controller.ApiController;
+import com.mychum1.explorer.domain.HotPlace;
 import com.mychum1.explorer.domain.KaKaoDocuments;
-import com.mychum1.explorer.domain.Poi;
 import com.mychum1.explorer.exception.SearchException;
-import com.mychum1.explorer.repository.PoiRepository;
-import com.mychum1.explorer.service.HotKeywordService;
+import com.mychum1.explorer.repository.HotPlaceRepository;
+import com.mychum1.explorer.service.HotPlaceService;
 import com.mychum1.explorer.service.kakao.KaKaoSearchService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -30,7 +30,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 class ExplorerApplicationTests {
 
 	@Autowired
-	private HotKeywordService hotKeywordService;
+	private HotPlaceService hotPlaceService;
 
 	@Autowired
 	private KaKaoSearchService kaKaoSearchService;
@@ -38,7 +38,7 @@ class ExplorerApplicationTests {
 	private MockMvc mockMvc;
 
 	@Autowired
-	private PoiRepository poiRepository;
+	private HotPlaceRepository hotPlaceRepository;
 
 	@Autowired
 	private ApiController apiController;
@@ -84,8 +84,8 @@ class ExplorerApplicationTests {
 	 * 인기 키워드 저장 테스트
 	 */
 	@Test
-	public void testSavePoi() {
-		Poi result = poiRepository.save(new Poi("카카오프렌즈",1));
+	public void testSaveHotPlace() {
+		HotPlace result = hotPlaceRepository.save(new HotPlace("카카오프렌즈",1));
 		assertThat(result.getKeyword()).isEqualTo("카카오프렌즈");
 		assertThat(result.getCount()).isEqualTo(1);
 	}
@@ -94,8 +94,8 @@ class ExplorerApplicationTests {
 	 * 인기 키워드 카운트 업데이트 테스트
 	 */
 	@Test
-	public void testUpdatePoi() {
-		Integer result = hotKeywordService.updateHotKeyword("카카오프렌즈");
+	public void testUpdateHotPlace() {
+		Integer result = hotPlaceService.updateHotKeyword("카카오프렌즈");
 		assertThat(result).isEqualTo(1);
 	}
 
@@ -104,10 +104,10 @@ class ExplorerApplicationTests {
 	 */
 	@Test
 	public void testTopRanking() {
-		List<Poi> result = hotKeywordService.topRanking(10);
+		List<HotPlace> result = hotPlaceService.topRanking(10);
 		assertThat(result.size()).isGreaterThanOrEqualTo(0).isLessThanOrEqualTo(10);
-		testUpdatePoi();
-		hotKeywordService.topRanking(10);
+		testUpdateHotPlace();
+		hotPlaceService.topRanking(10);
 		assertThat(result.size()).isGreaterThanOrEqualTo(0).isLessThanOrEqualTo(10);
 	}
 
@@ -124,11 +124,11 @@ class ExplorerApplicationTests {
 	 * 인기키워드 저장 후 업데이트 테스트
 	 */
 	@Test
-	public void savePoiAndUpdate() throws SearchException {
-		testSavePoi();
-		hotKeywordService.updateHotKeyword("카카오프렌즈");
+	public void saveHotPlaceAndUpdate() throws SearchException {
+		testSaveHotPlace();
+		hotPlaceService.updateHotKeyword("카카오프렌즈");
 
-		assertThat(poiRepository.findById("카카오프렌즈").get().getCount()).isEqualTo(2);
+		assertThat(hotPlaceRepository.findById("카카오프렌즈").get().getCount()).isEqualTo(2);
 	}
 
 

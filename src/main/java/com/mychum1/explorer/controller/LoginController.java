@@ -10,10 +10,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("/")
 public class LoginController {
 
-    //TODO 잘못된 링크로 요청하고 나서 로그인을 하면 다시 그 잘못된 링크로 넘어가는데 홈으로 가야함.
-    //TODO 로그아웃 페이지 맛들 것
-
-
     @GetMapping(value="/denied")
     public String deny() {
         return "denied";

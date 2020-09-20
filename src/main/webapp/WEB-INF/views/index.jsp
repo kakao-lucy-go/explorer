@@ -12,7 +12,7 @@
 <link href="style.css" rel="stylesheet" type="text/css" />
 <link href="rankStyle.css" rel="stylesheet" type="text/css" />
 <script type="text/javascript" src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=~~&libraries=services,clusterer,drawing"></script>
+<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=65aabc830c37847615ba8956020dc5dd&libraries=services,clusterer,drawing"></script>
 
 </head>
 <body>
@@ -134,13 +134,13 @@
             </div>
             <div class="content-item-box">
             <div class="content-item">
-            <div class="content-title">위도</div>
+            <div class="content-title">X</div>
             <div class="content-content place_x"></div>
             </div>
             </div>
             <div class="content-item-box">
             <div class="content-item">
-            <div class="content-title">경도</div>
+            <div class="content-title">Y</div>
             <div class="content-content place_y"></div>
             </div>
             </div>
@@ -165,11 +165,11 @@
 
 <script type="text/javascript">
 
+let nowPage=1
 
 let showDetailModal = (obj) => {
     document.querySelector('.modal-title').textContent = obj['place_name']
     for (const [key, value] of Object.entries(obj)) {
-        console.log(key + ': ' + value);
         let target = document.querySelector(`.place_`+key);
 
         if(target) {
@@ -197,7 +197,6 @@ modal.style.display = 'none';
 
 (function() {
 
-   console.log("Initial")
    fetchRank();
 
 })();
@@ -216,7 +215,6 @@ async function fetchRank(){
         let ranking = await axios(rankConfig);
 
        let rankList = ranking.data.data;
-        console.log(rankList)
         let number = 1
         let elRankList = rankList.map((item) => {
             let rankItem = createEl('div', 'rank-item')
@@ -240,13 +238,10 @@ async function fetchRank(){
             return rankItem;
         })
 
-        console.log(elRankList)
-
         for(let el of elRankList) {
           document.querySelector('.rank-list').appendChild(el)
         }
 
-        console.log(ranking)
     } catch(err) {
         console.log(err)
     }
@@ -310,10 +305,9 @@ async function fetchData(e, repeat){
     try {
         let res = await axios(config);
 
-        console.log(res.data.data)
         let placeList = res.data.data.documents;
         let dataTotalCount = res.data.data.meta.total_count;
-        console.log("count : " + dataTotalCount)
+
         let elPlaceList = placeList.map((item) => {
             let searchItem = createEl('div', 'search-item')
             searchItem.onclick = () => {
@@ -338,8 +332,6 @@ async function fetchData(e, repeat){
             return searchItem;
         })
 
-        console.log(elPlaceList)
-
         for(let el of elPlaceList) {
           document.querySelector('.search-list').appendChild(el)
         }
@@ -354,21 +346,21 @@ async function fetchData(e, repeat){
 }
 
 function drawPage(total, event) {
-    if(!event) {
-    console.log("event is null")
-    }
 
-    console.log("total : " + total)
     let totalCount = total;
     let totalPage = parseInt((total/15)) +1;
-console.log("totalCount : " + totalCount + " , totalPage : " + totalPage)
 
     for(let i=1;i<=totalPage; i++) {
 
             //let pageItem = createEl('div', 'page-list');
 
             let pageDiv = createEl('div',"page-item");
-            let pageButton = createEl('a','"page-item-link')
+            let pageButton;
+            if(nowPage==i){
+                pageButton = createEl('a','"page-item-link page-item-link-now')
+            }else{
+                pageButton = createEl('a','"page-item-link')
+            }
 
             pageButton.onclick=function() {
                 paging(event, true, i)
@@ -388,10 +380,9 @@ console.log("totalCount : " + totalCount + " , totalPage : " + totalPage)
 }
 
 function paging(e, repeat, pageIndex) {
-console.log("repeat. " + repeat)
-console.log("paging. " + pageIndex)
-console.log("e:" + e.keyword)
+
     e.page = pageIndex;
+    nowPage=pageIndex;
     fetchData(e,repeat);
 
 }

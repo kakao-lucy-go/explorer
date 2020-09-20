@@ -5,14 +5,14 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name="poi")
-public class Poi {
+@Table(name="hotplace")
+public class HotPlace {
     @Id
     private String keyword;
     private Integer count;
 
-    public Poi() {}
-    public Poi(String keyword, Integer count) {this.keyword=keyword; this.count=count;}
+    public HotPlace() {}
+    public HotPlace(String keyword, Integer count) {this.keyword=keyword; this.count=count;}
     public String getKeyword() {
         return keyword;
     }
