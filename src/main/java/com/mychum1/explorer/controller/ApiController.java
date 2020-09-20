@@ -48,7 +48,7 @@ public class ApiController {
 
     @Secured("ROLE_ADMIN")
     @GetMapping("/rank")
-    public ResponseEntity<Response> topRanking(@RequestParam(value = "num", defaultValue = "10") int num) {
+    public ResponseEntity<Response> topRanking(@RequestParam(value = "num", required = false, defaultValue = "10") int num) {
         logger.info("call topRanking()");
         return new ResponseEntity<>(new Response<>(HttpStatus.OK.value(), "success", apiHandler.topRanking(num)), HttpStatus.OK);
     }

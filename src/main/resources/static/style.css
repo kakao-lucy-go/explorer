@@ -124,3 +124,7 @@ body {
           color: white; }
           body #DataDetail .background-dim .window .modal-footer .close:active {
             background-color: #6ec2da; }
+
+#Search .page-item-link-now {
+background-color: skyblue;
+}
