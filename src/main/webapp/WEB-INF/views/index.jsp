@@ -74,90 +74,86 @@
                     <div class="content-item-box">
                         <div class="content-item">
                         <div class="content-title">주소</div>
-                        <div class="content-content place_address_name">
+                        <div class="content-content place_address_name"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">카테고리 그룹 코드</div>
+                        <div class="content-content place_category_group_code"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">카테고리 그룹 명</div>
+                        <div class="content-content place_category_group_name"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">카테고리 명</div>
+                        <div class="content-content place_category_name"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">거리</div>
+                        <div class="content-content place_distance"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">아이디</div>
+                        <div class="content-content place_id"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">연락처</div>
+                        <div class="content-content place_phone"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">장소명</div>
+                        <div class="content-content place_place_name"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">위치</div>
+                        <div class="content-content place_place_url"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">도로명 주소</div>
+                        <div class="content-content place_road_address_name"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">X</div>
+                        <div class="content-content place_x"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">Y</div>
+                        <div class="content-content place_y"></div>
+                    </div>
+                </div>
+                <div class="content-item-box">
+                    <div class="content-item">
+                        <div class="content-title">바로가기</div>
+                            <div class="content-content place_link"> </div>
+                            <div id="map" style="position:relative;width:300px;height:200px;"></div>
+                        </div>
                     </div>
                 </div>
             </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">카테고리 그룹 코드</div>
-            <div class="content-content place_category_group_code"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">카테고리 그룹 명</div>
-            <div class="content-content place_category_group_name"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">카테고리 명</div>
-            <div class="content-content place_category_name"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">거리</div>
-            <div class="content-content place_distance"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">아이디</div>
-            <div class="content-content place_id"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">연락처</div>
-            <div class="content-content place_phone"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">장소명</div>
-            <div class="content-content place_place_name"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">위치</div>
-            <div class="content-content place_place_url"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">도로명 주소</div>
-            <div class="content-content place_road_address_name"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">X</div>
-            <div class="content-content place_x"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">Y</div>
-            <div class="content-content place_y"></div>
-            </div>
-            </div>
-            <div class="content-item-box">
-            <div class="content-item">
-            <div class="content-title">바로가기</div>
-            <div class="content-content place_link"> </div>
-            <div id="map" style="position:relative;width:300px;height:200px;"></div>
-            </div>
-            </div>
-
-            </div>
-
-            </div>
-
             <div class="modal-footer">
-            <button class="close" onclick="hideDetailModal()">확 인</button>
+                <button class="close" onclick="hideDetailModal()">확 인</button>
             </div>
         </div>
     </div>
