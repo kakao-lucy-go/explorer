@@ -9,4 +9,8 @@ public class CommonCode {
     public static String ERROR_PARAMETER_WEIRD="keyword parameter is required";
 
     public static String INTERNAL_SERVER_ERROR="internal server error";
+
+    public static String LogIn_ERROR="Login is failed";
+
+    public static String No_USER="No User";
 }

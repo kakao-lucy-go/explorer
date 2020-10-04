@@ -5,6 +5,8 @@ import com.mychum1.explorer.domain.KaKaoDocuments;
 import com.mychum1.explorer.domain.KaKaoPlace;
 import com.mychum1.explorer.exception.SearchException;
 import com.mychum1.explorer.service.SearchService;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +21,7 @@ import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
 
 @Service
 public class KaKaoSearchService<T> implements SearchService {
@@ -52,6 +55,20 @@ public class KaKaoSearchService<T> implements SearchService {
     }
 
 
+    @HystrixCommand(fallbackMethod = "fallBack", commandProperties = @HystrixProperty(name="execution.isolation.thread.timeoutInMilliseconds", value="1"))
+    private ResponseEntity<KaKaoDocuments> callKakaoSearchingApi(MultiValueMap<String, String> params) throws InterruptedException {
+
+        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(kakaoSearchUrl)
+                .queryParams(params);
+        return restTemplate.exchange(builder.encode().build().toUri(), HttpMethod.GET, new HttpEntity<>(headers), KaKaoDocuments.class);
+    }
+
+    public ResponseEntity<KaKaoDocuments> fallBack(String id) {
+        logger.error("{} is error and go to fallback method", id);
+        return null;
+
+    }
+
     /**
      * 키워드 기반으로 장소를 검색한다.
      * @param keyword : 장소 명
@@ -67,14 +84,11 @@ public class KaKaoSearchService<T> implements SearchService {
         params.add("size", String.valueOf(size));
         params.add("query", keyword);
 
-        UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(kakaoSearchUrl)
-                .queryParams(params);
-
         try {
             if(keyword.equals("")) {
                 throw new SearchException(HttpStatus.BAD_REQUEST.value(), CommonCode.ERROR_PARAMETER_WEIRD);
             }
-            ResponseEntity<KaKaoDocuments> kaKaoDocumentsResponseEntity = restTemplate.exchange(builder.encode().build().toUri(), HttpMethod.GET, new HttpEntity<>(headers), KaKaoDocuments.class);
+            ResponseEntity<KaKaoDocuments> kaKaoDocumentsResponseEntity = callKakaoSearchingApi(params);
             KaKaoDocuments kaKaoDocuments = null;
             if (kaKaoDocumentsResponseEntity.getStatusCode().is2xxSuccessful()) {
                 kaKaoDocuments = kaKaoDocumentsResponseEntity.getBody();
@@ -94,6 +108,8 @@ public class KaKaoSearchService<T> implements SearchService {
 
         }catch(SearchException se) {
             throw new SearchException(se.getCode(), se.getMessage(), se);
+        }catch(InterruptedException ie) {
+            throw new SearchException(1000,"hystrix test", ie);
         }
     }
 
