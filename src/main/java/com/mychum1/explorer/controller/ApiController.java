@@ -10,7 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.annotation.Secured;
+//import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -33,7 +33,7 @@ public class ApiController {
      * @param size : 데이터 사이즈
      * @return
      */
-    @Secured("ROLE_ADMIN")
+    //@Secured("ROLE_ADMIN")
     @GetMapping("/kakao/places")
     public ResponseEntity<Response> searchPlacesByKeywordUsingKaKao(@RequestParam(value = "keyword") String keyword,
                                                                        @RequestParam(value = "repeat", required = false, defaultValue = "false") Boolean repeat,
@@ -59,7 +59,7 @@ public class ApiController {
      * @param num : 반환받을 인기 키워드 데이터 사이즈
      * @return
      */
-    @Secured("ROLE_ADMIN")
+    //@Secured("ROLE_ADMIN")
     @GetMapping("/rank")
     public ResponseEntity<Response> topRanking(@RequestParam(value = "num", required = false, defaultValue = "10") int num) {
         logger.info("call topRanking() num:{}", num);
