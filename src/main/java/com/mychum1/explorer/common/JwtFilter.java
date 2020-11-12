@@ -1,5 +1,7 @@
 package com.mychum1.explorer.common;
 
+import com.mychum1.explorer.repository.BlackListRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.GenericFilterBean;
@@ -19,6 +21,8 @@ import java.io.IOException;
 public class JwtFilter extends OncePerRequestFilter {
 
     private JwtProvider jwtProvider;
+
+
 
     public JwtFilter(JwtProvider jwtProvider) {
         this.jwtProvider=jwtProvider;
@@ -44,7 +48,7 @@ public class JwtFilter extends OncePerRequestFilter {
         System.out.println(request.getHeader("Authorization"));
 
         //로그인은 그대로 통과
-        if(path.equals("/login")){
+        if(path.equals("/login") || path.equals("/signup")){
             filterChain.doFilter(request,response);
 
         }else {

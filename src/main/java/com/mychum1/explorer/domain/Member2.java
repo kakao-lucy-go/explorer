@@ -13,6 +13,8 @@ public class Member2 {
 
     private String password;
 
+    private String refreshToken;
+
     public Member2() {
 
     }
@@ -36,5 +38,13 @@ public class Member2 {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getRefreshToken() {
+        return refreshToken;
+    }
+
+    public void setRefreshToken(String refreshToken) {
+        this.refreshToken = refreshToken;
     }
 }

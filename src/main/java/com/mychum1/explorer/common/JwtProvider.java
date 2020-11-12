@@ -1,5 +1,6 @@
 package com.mychum1.explorer.common;
 
+import com.mychum1.explorer.repository.BlackListRepository;
 import com.mychum1.explorer.repository.UserRepository;
 import io.jsonwebtoken.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,10 +27,30 @@ public class JwtProvider {
     @Autowired
     UserRepository userRepository;
 
+    @Autowired
+    private BlackListRepository blackListRepository;
+
     @PostConstruct
     public void jwtProviderInitialize() {
         secretKey = Base64.getEncoder().encodeToString(jwtSecretKey.getBytes());
 
+    }
+
+    //일반 토큰과 refresh token의 차이가 없어지고, 리프레시 토큰만으로도 접근이 가능하게 됨..
+    public String createRefreshToken(String userName) {
+
+        Date now = new Date();
+        return Jwts.builder()
+                .setIssuedAt(new Date())
+                .setIssuer("explorer")
+                .setSubject(userName)
+                .setAudience("explorer")
+                .setId(String.valueOf(UUID.randomUUID()))
+                // .setClaims(claims)  //payload claim
+                .setIssuedAt(now)
+                .setExpiration(new Date(now.getTime() + (7 * 24 * 60 * 60 * 1000L)))
+                .signWith(SignatureAlgorithm.HS256, secretKey)  //서명
+                .compact();
     }
 
     public String createToken(String userName) {
@@ -78,10 +99,21 @@ public class JwtProvider {
         return request.getHeader("Authorization");
     }
 
+    public String getUserNameFromToken(String token) {
+        String replacedToken = token.replace("Bearer ","");
+        Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(replacedToken);
+        return claims.getBody().getSubject();
+    }
+
     public boolean validationToken(String token) {
         System.out.println("token : " + token);
 
         String replacedToken = token.replace("Bearer ","");
+
+        if(blackListRepository.existsById(replacedToken)) {
+            return false;
+        }
+
         Jws<Claims> claims = Jwts.parser().setSigningKey(secretKey).parseClaimsJws(replacedToken);
 
         try {
