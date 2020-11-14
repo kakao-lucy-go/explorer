@@ -6,6 +6,7 @@ import com.mychum1.explorer.domain.KaKaoDocuments;
 import com.mychum1.explorer.domain.Response;
 import com.mychum1.explorer.exception.SearchException;
 import com.mychum1.explorer.handler.ApiHandler;
+import com.opencsv.exceptions.CsvValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -24,11 +25,21 @@ public class CsvController {
 
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
+    @Autowired
+    CsvProcessor csvProcessor;
+
     @GetMapping("/test")
     public ResponseEntity<Response> test(@RequestParam(value = "num", required = false, defaultValue = "10") int num) throws IOException {
         logger.info("call test() num:{}", num);
-        CsvProcessor.test();
+        csvProcessor.test();
         return new ResponseEntity<>(new Response<>(HttpStatus.OK.value(), CommonCode.SUCCESS_MSG, "good"), HttpStatus.OK);
+    }
+
+    @GetMapping("/test2")
+    public ResponseEntity<Response> test2(@RequestParam(value = "num", required = false, defaultValue = "10") int num) throws IOException, CsvValidationException {
+        logger.info("call test() num:{}", num);
+        csvProcessor.saveCsvData();
+        return new ResponseEntity<>(new Response<>(HttpStatus.OK.value(), CommonCode.SUCCESS_MSG, csvProcessor.readCsvData()), HttpStatus.OK);
     }
 
 

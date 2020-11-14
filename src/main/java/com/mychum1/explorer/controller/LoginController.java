@@ -116,7 +116,7 @@ public class LoginController {
         String password = new String(decoder.decode(encodedUserInfoArray[1].getBytes(StandardCharsets.UTF_8)));
 
         System.out.println("password : " + password);
-        // 임시로 유저 정보 인풋
+        // 임시로 유저 정보 인풋, TODO 가입되어있지 않은 사용자가 로그인할 경우 여기서 NoSuchElementException 에러남.
         Member2 member = userRepository.findById(userName).get();
         System.out.println(member.getPassword() + " , " + password);
 
